@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="manuscriptpg">
+<head>
+  <meta charset="utf-8">
+  <title>Manuscript Reporter</title>
+</head>
+
+<body>
+  <h1>Title of manuscript here</h1>
+
+  <ul ng-controller="manuscriptpgController as manpgCtrl">
+    <li ng-repeat="word in manpgCtrl.words">Word: {{ word.name }} Frequency: {{ word.frequency }} Is it English? {{ word.isWord }}</li>
+  </ul>
+
+
+  <!-- <h2>Manuscript Reporter</h2>
+  <input type='file' accept='text/plain' onchange='openFile(event)'><br>
+  <img id='output'>
+
+  <section id="results">
+
+  </section>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="dist/bundle.js"></script> -->
+  <script src="dist/bundle.js"></script>
+</body>
+
+</html>
