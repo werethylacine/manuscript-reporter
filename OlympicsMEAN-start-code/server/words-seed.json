@@ -1,0 +1,10 @@
+[
+  {
+    "name": "dog",
+    "frequency": 5,
+    "isWord": true },
+  {
+    "name": "caht",
+    "frequency": 7,
+    "isWord": false }
+]

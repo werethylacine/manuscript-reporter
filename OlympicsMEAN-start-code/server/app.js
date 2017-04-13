@@ -16,7 +16,7 @@ app.get("/words", (request, response) => {
     //let wordNames = docs.map((word) => word);
     response.json ( docs );
   });
-  //{"name": "dog", "frequency": 5, "isWord": true} , {"name": "caht", "frequency": 7, "isWord": false}}
+  //{"name": "dog", "frequency": 5, "isWord": true} , {"name": "caht", "frequency": 7, "isWord": false}
 });
 
 //8181 is arbitrary
