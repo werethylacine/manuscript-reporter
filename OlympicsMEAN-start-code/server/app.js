@@ -9,9 +9,9 @@ mongoUtil.connect();
 //where express should look for static files to serve up
 app.use( express.static(__dirname + "/../client") );
 
-app.get("/words", (request, response) => {
-  let words = mongoUtil.words();
-  words.find().toArray((err, docs) => {
+app.get("/manuscripts", (request, response) => {
+  let manuscripts = mongoUtil.manuscripts();
+  manuscripts.find().toArray((err, docs) => {
     console.log(JSON.stringify(docs));
     //let wordNames = docs.map((word) => word);
     response.json ( docs );

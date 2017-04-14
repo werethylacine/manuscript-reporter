@@ -11,9 +11,9 @@ _angular2.default.module('manuscriptpg', []).controller('manuscriptpgController'
   var _this = this;
 
   //sends http request to /words endpoint, when it comes back assigns response data to this.words
-  $http.get("/words").then(function (response) {
-    _this.words = response.data;
-    console.log(_this.words);
+  $http.get("/manuscripts").then(function (response) {
+    _this.manuscripts = response.data;
+    console.log(_this.manuscripts);
   });
 });
 

@@ -3,14 +3,24 @@
 <head>
   <meta charset="utf-8">
   <title>Manuscript Reporter</title>
+  <style>
+    .mini-manu-view {
+      background-color: #ddd;
+      margin: 1%;
+    }
+  </style>
 </head>
 
 <body>
-  <h1>Title of manuscript here</h1>
+  <h1>Here are some manuscripts</h1>
 
-  <ul ng-controller="manuscriptpgController as manpgCtrl">
-    <li ng-repeat="word in manpgCtrl.words">Word: {{ word.name }} Frequency: {{ word.frequency }} Is it English? {{ word.isWord }}</li>
-  </ul>
+  <div ng-controller="manuscriptpgController as manpgCtrl">
+    <div class="mini-manu-view" ng-repeat="manuscript in manpgCtrl.manuscripts">
+      <p>Title: {{ manuscript.title }} </p>
+      <p>Author: {{ manuscript.author }} </p>
+      <p>Contents: <span ng-repeat="word in manuscript.contents">Word: {{ word.word }} Frequency: {{ word.frequency }} Is it English? {{ word.isWord }}</span></p>
+    </div>
+  </div>
 
 
   <!-- <h2>Manuscript Reporter</h2>
