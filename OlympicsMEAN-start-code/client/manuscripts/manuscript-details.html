@@ -1,0 +1,14 @@
+<h3>Details for {{ manuscriptCtrl.manuscript.title }}</h3>
+
+<table class="table" id="word-frequency-table">
+  <thead>
+    <th>Word</th>
+    <th>Frequency</th>
+  </thead>
+  <tbody>
+    <tr ng-repeat="word in manuscriptCtrl.manuscript.contents">
+      <td>{{ word.word }}</td>
+      <td>{{ word.frequency }}</td>
+    </tr>
+  </tbody>
+</table>

@@ -13,7 +13,9 @@
     "angular": "^1.6.4",
     "angular-ui-router": "^0.4.2",
     "express": "^4.15.2",
-    "mongodb": "^2.2.25"
+    "mongodb": "^2.2.25",
+    "passport": "^0.3.2",
+    "passport-google-oauth": "^1.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.2.1",

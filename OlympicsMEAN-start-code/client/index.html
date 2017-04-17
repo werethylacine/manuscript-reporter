@@ -14,14 +14,7 @@
 <body>
   <h1>Here are some manuscripts</h1>
 
-  <div ng-controller="manuscriptpgController as manpgCtrl">
-    <div class="mini-manu-view" ng-repeat="manuscript in manpgCtrl.manuscripts">
-      <p>Title: {{ manuscript.title }} </p>
-      <p>Author: {{ manuscript.author }} </p>
-      <p>Contents: <span ng-repeat="word in manuscript.contents">Word: {{ word.word }} Frequency: {{ word.frequency }} Is it English? {{ word.isWord }}</span></p>
-    </div>
-  </div>
-
+  <div ui-view></div>
 
   <!-- <h2>Manuscript Reporter</h2>
   <input type='file' accept='text/plain' onchange='openFile(event)'><br>
