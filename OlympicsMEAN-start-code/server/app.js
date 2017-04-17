@@ -31,14 +31,30 @@ passport.use(new GoogleStrategy({
 //where express should look for static files to serve up
 app.use( express.static(__dirname + "/../client") );
 
+//gets all manuscripts to create navigation section
 app.get("/manuscripts", (request, response) => {
   let manuscripts = mongoUtil.manuscripts();
   manuscripts.find().toArray((err, docs) => {
-    //console.log(JSON.stringify(docs));
-    //let wordNames = docs.map((word) => word);
+    if (err) {
+      response.sendStatus(400);
+    }
+    else {
     response.json ( docs );
+    }
   });
-  //{"name": "dog", "frequency": 5, "isWord": true} , {"name": "caht", "frequency": 7, "isWord": false}
+});
+
+//gets doc of manuscript details from mongo based on title
+app.get("/manuscripts/:title", (request, response) => {
+  let manuTitle = request.params.title;
+  let manuscripts = mongoUtil.manuscripts();
+  //.limit is needed bc find returns a pointer
+  manuscripts.find({title: manuTitle}).limit(1).next((err,doc) => {
+    if (err) {
+      response.sendStatus(400);
+    }
+    response.json(doc);
+  });
 });
 
 //8181 is arbitrary

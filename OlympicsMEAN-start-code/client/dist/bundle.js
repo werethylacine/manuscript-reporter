@@ -32,15 +32,9 @@ _angular2.default.module('manuscriptpg', ["ui.router"]).config(function ($stateP
     templateUrl: 'manuscripts/manuscript-details.html',
     resolve: {
       //q is angular's implementation of a promise, so this is just temporary mock-up data
-      manuscriptService: function manuscriptService($q) {
-        return $q(function (resolve, reject) {
-          var manuscript = {
-            "owner": 123456,
-            "title": "Nihilist Punk Cooking",
-            "author": "Snuggly Bandersnatch",
-            "contents": [{ "word": "eat", "frequency": 12, "isWord": true }, { "word": "god", "frequency": 10, "isWord": true }, { "word": "pukeathon", "frequency": 1, "isWord": false }] };
-          resolve({ data: manuscript });
-        });
+      manuscriptService: function manuscriptService($http, $stateParams) {
+        //first $ is string interpolation syntax; second is angular variable. Wow!
+        return $http.get('/manuscripts/' + $stateParams.manuscriptTitle);
       }
     },
     controller: function controller(manuscriptService) {
