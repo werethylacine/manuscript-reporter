@@ -1,11 +1,13 @@
-<div>
-  <div class="mini-manu-view" ng-repeat="manuscript in manpgCtrl.manuscripts">
-    <p>Title:
-      <!-- sref used since we're using ui-router-->
-      <a ui-sref="manuscripts.title({manuscriptTitle: manuscript.title})">{{ manuscript.title }}</a>
-    </p>
-    <p>Author: {{ manuscript.author }} </p>
-    <p>Contents: <span ng-repeat="word in manuscript.contents">Word: {{ word.word }} Frequency: {{ word.frequency }} Is it English? {{ word.isWord }}</span></p>
+<div class="scrollmenu">
+  <div ng-repeat="manuscript in manpgCtrl.manuscripts">
+    <a class="mini-manu-view" ui-sref="manuscripts.title({manuscriptTitle: manuscript.title})">
+      <div class="btn">
+          <p>Title:
+            <!-- sref used since we're using ui-router-->
+            {{ manuscript.title }}</p>
+          <p>Author: {{ manuscript.author }}</p>
+      </div>
+    </a>
   </div>
 </div>
 
