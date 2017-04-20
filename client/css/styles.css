@@ -1,30 +1,128 @@
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Quattrocento', serif;
+  background-color: #DCD9C7;
+  overflow-x: hidden;
 }
 a {
   color: #000;
+  text-decoration: none;
 }
 .scrollmenu {
-  background-color: #222;
-  overflow: auto;
+  position: relative;
+  background-color: #687C7F;
+  border-bottom: 1px solid #fff;
+  border-top: 1px solid #fff;
+  overflow-x: auto;
   white-space: nowrap;
   height: 10%;
   padding: 10px;
+  width: 100%;
+  align-items: flex-start;
+}
+.scrollmenu::-webkit-scrollbar-track
+{
+  background-color: #687C7F;
+}
+
+.scrollmenu::-webkit-scrollbar
+{
+  width: 10px;
+	background-color: #687C7F;
+}
+
+.scrollmenu::-webkit-scrollbar-thumb
+{
+	background-color: #FF6F3F;
+  border: 1px solid #EE5E2E;
+  border-radius: 10px;
+}
+
+.inner-scrollmenu {
+  min-width: 105%;
+  z-index: 2;
 }
 .scrollmenu div {
-  display: inline-block;
+  display: flex;
+  align-items: flex-start;
+
 }
 .mini-manu-view {
-  margin: 1%;
-  background-color: gray;
   margin: 10px;
-}
-.scrollmenu .btn {
-  background-color: #eee;
+  align-self: center;
+  border-radius: 10px;
+  box-shadow: 5px 5px #333;
+  background-color: #fff;
   padding: 10px;
-  border: 1px solid #fff;
+  height: 130px;
+  width: 95px;
+  font-size: .8em;
+  position: relative;
+  z-index: 6;
+  white-space: normal;
 }
-.mini-manu-view :hover {
-  background-color: #ccc;
+.mini-manu-view p {
+  background-color: transparent;
+}
+
+.mini-manu-link :hover {
+  transition: .4s ease-in-out;
+  background-color: #FF6F3F;
+}
+
+h1 {
+  display: inline;
+}
+#header {
+  position: relative;
+  color: #6D4C3D;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0px 5px 20px #333;
+  z-index: 5;
+}
+#add-new {
+  display: flex;
+  align-content: center;
+  text-align: center;
+  position: relative;
+  height: 100px;
+  width: 100px;
+  margin-right: 50px;
+  color: #fff;
+  font-weight: bold;
+  background-color: #687C7F;
+  border: 5px solid transparent;
+  border-radius: 5px;
+}
+#add-new p {
+  margin: auto;
+}
+#add-new-wrapper :hover {
+  transition: .5s ease-in-out;
+  background-color: #FF6F3F;
+}
+h3, table {
+  margin: auto;
+}
+table {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 15px;
+}
+#mandetails {
+  text-align: center;
+}
+
+th, td {
+    padding: 5px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+    border-collapse: collapse;
+}
+th {
+  font-weight: bold;
 }

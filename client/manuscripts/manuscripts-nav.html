@@ -1,13 +1,11 @@
 <div class="scrollmenu">
-  <div ng-repeat="manuscript in manpgCtrl.manuscripts">
-    <a class="mini-manu-view" ui-sref="manuscripts.title({manuscriptTitle: manuscript.title})">
-      <div class="btn">
-          <p>Title:
-            <!-- sref used since we're using ui-router-->
-            {{ manuscript.title }}</p>
-          <p>Author: {{ manuscript.author }}</p>
-      </div>
-    </a>
+  <div class="inner-scrollmenu">
+    <div class="mini-manu-link" ng-repeat="manuscript in manpgCtrl.manuscripts">
+      <!-- sref used since we're using ui-router-->
+      <a class="mini-manu-view" ui-sref="manuscripts.title({manuscriptTitle: manuscript.title})">
+            <p>{{ manuscript.title }}<br>by {{ manuscript.author }}</p>
+      </a>
+    </div>
   </div>
 </div>
 
