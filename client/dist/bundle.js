@@ -9,6 +9,11 @@ require('angular-ui-router');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// angular.module('txthandler', [])
+//   .service('openFile', [function(input) {
+//     console.log(input);
+//   });
+
 _angular2.default.module('manuscriptpg', ["ui.router"]).config(function ($stateProvider, $urlRouterProvider) {
   //if no url is specified go to /manuscripts
   $urlRouterProvider.otherwise('/manuscripts');
@@ -41,6 +46,19 @@ _angular2.default.module('manuscriptpg', ["ui.router"]).config(function ($stateP
       this.manuscript = manuscriptService.data;
     },
     controllerAs: 'manuscriptCtrl'
+  }).state('manuscripts.new', {
+    url: '/manuscript/new',
+    templateUrl: 'manuscripts/new-manuscript.html',
+    controller: function controller($stateParams) {
+      //i think we will need to grab user ID here so we have it to save on the new manu
+      console.log("at least got inside the controller...");
+      //saveManu doesn't appear to be getting called. WHY???
+      this.saveManu = function (manuscript) {
+        console.log("I got cliecked!");
+        console.log('manuscript: ', manuscript);
+      };
+    },
+    controllerAs: 'newManuCtrl'
   });
 });
 

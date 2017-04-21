@@ -1,6 +1,11 @@
 import angular from 'angular'
 import 'angular-ui-router'
 
+// angular.module('txthandler', [])
+//   .service('openFile', [function(input) {
+//     console.log(input);
+//   });
+
 angular.module('manuscriptpg', ["ui.router"])
 
   .config(($stateProvider, $urlRouterProvider) => {
@@ -37,5 +42,19 @@ angular.module('manuscriptpg', ["ui.router"])
         this.manuscript = manuscriptService.data;
       },
       controllerAs: 'manuscriptCtrl',
+    })
+    .state('manuscripts.new', {
+      url: '/manuscript/new',
+      templateUrl: 'manuscripts/new-manuscript.html',
+      controller: function($stateParams) {
+        //i think we will need to grab user ID here so we have it to save on the new manu
+        console.log("at least got inside the controller...");
+        //saveManu doesn't appear to be getting called. WHY???
+        this.saveManu = function(manuscript){
+          console.log("I got cliecked!");
+          console.log('manuscript: ', manuscript);
+        };
+      },
+      controllerAs: 'newManuCtrl'
     })
   })
