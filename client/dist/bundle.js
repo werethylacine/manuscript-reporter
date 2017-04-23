@@ -36,7 +36,6 @@ _angular2.default.module('manuscriptpg', ["ui.router"]).config(function ($stateP
     url: '/:manuscriptTitle',
     templateUrl: 'manuscripts/manuscript-details.html',
     resolve: {
-      //q is angular's implementation of a promise, so this is just temporary mock-up data
       manuscriptService: function manuscriptService($http, $stateParams) {
         //first $ is string interpolation syntax; second is angular variable. Wow!
         return $http.get('/manuscripts/' + $stateParams.manuscriptTitle);
@@ -49,13 +48,15 @@ _angular2.default.module('manuscriptpg', ["ui.router"]).config(function ($stateP
   }).state('manuscripts.new', {
     url: '/manuscript/new',
     templateUrl: 'manuscripts/new-manuscript.html',
-    controller: function controller($stateParams) {
-      //i think we will need to grab user ID here so we have it to save on the new manu
-      console.log("at least got inside the controller...");
-      //saveManu doesn't appear to be getting called. WHY???
+    controller: function controller($stateParams, $state, $http) {
+      //TODO: i think we will need to grab user ID here eventually so we have it to save on the new manu
+
+      //TODO: problem: new manuscript is added to DB but doesn't show up in navigation bar until reload
       this.saveManu = function (manuscript) {
-        console.log("I got cliecked!");
-        console.log('manuscript: ', manuscript);
+        $http({ method: 'POST', url: '/manuscripts',
+          data: JSON.stringify(manuscript) }).then(function () {
+          $state.go('manuscripts.title', { manuscriptTitle: manuscript.title });
+        });
       };
     },
     controllerAs: 'newManuCtrl'

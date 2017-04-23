@@ -31,6 +31,9 @@ passport.use(new GoogleStrategy({
 //where express should look for static files to serve up
 app.use( express.static(__dirname + "/../client") );
 
+let bodyParser = require("body-parser");
+let jsonParser = bodyParser.json();
+
 //gets all manuscripts to create navigation section
 app.get("/manuscripts", (request, response) => {
   let manuscripts = mongoUtil.manuscripts();
@@ -42,6 +45,24 @@ app.get("/manuscripts", (request, response) => {
     response.json ( docs );
     }
   });
+});
+
+//new manuscript page redirects back to manuscript main page after submit
+app.post("/manuscripts", jsonParser, (request, response) => {
+  let new_man_title = request.body.title;
+  let new_man_author = request.body.author;
+  let new_man_notes = request.body.notes || '';
+  //TODO:probably ought to grab creation date in here, also user id
+
+  //guard against lack of title or author
+  if(!new_man_title || !new_man_author){
+    response.sendStatus(400);
+  }
+
+  //put that new manuscript in the collection!
+  let manuscripts = mongoUtil.manuscripts();
+  manuscripts.insertOne( { title: new_man_title, author: new_man_author, notes: new_man_notes });
+  response.sendStatus(201);
 });
 
 //gets doc of manuscript details from mongo based on title
