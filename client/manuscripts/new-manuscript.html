@@ -1,27 +1,29 @@
-<form class="form" name="newManuForm" ng-submit="newManuCtrl.saveManu(manuscript)">
+<body>
+    <form class="form" name="newManuForm" ng-submit="newManuCtrl.saveManu(manuscript)">
 
-  <h3>Add a new manuscript to your collection:</h3>
+      <h3>Add a new manuscript to your collection:</h3>
 
-  <div class="form-field">
-    <label class="form-label" for="file">File (.txt only at this time):</label>
-    <input type='file' id="file" accept='text/plain' ng-model="manuscript.originalfilename"/><img id='output'>
-  </div>
+      <div class="form-field">
+        <label class="form-label" for="file">File (.txt only at this time):</label>
+        <input type='file' id="file" accept='text/plain' ng-model="manuscript.originalfilename"/><img id='output'>
+      </div>
 
-  <div class="form-field">
-    <label class="form-label" for="title">Title:</label>
-    <input class="form-input" id="title" required ng-model="manuscript.title"/>
-  </div>
+      <div class="form-field">
+        <label class="form-label" for="title">Title:</label>
+        <input class="form-input" id="title" required ng-model="manuscript.title"/>
+      </div>
 
-  <div class="form-field">
-    <label class="form-label" for="author">Author:</label>
-    <input class="form-input" id="author" required ng-model="manuscript.author"/>
-  </div>
+      <div class="form-field">
+        <label class="form-label" for="author">Author:</label>
+        <input class="form-input" id="author" required ng-model="manuscript.author"/>
+      </div>
 
-  <div class="form-field">
-    <label class="form-label" for="notes">Additional notes (optional):</label>
-    <input class="form-input" id="notes" ng-model="manuscript.notes"/>
-  </div>
+      <div class="form-field">
+        <label class="form-label" for="notes">Additional notes (optional):</label>
+        <input class="form-input" id="notes" ng-model="manuscript.notes"/>
+      </div>
 
-  <input class="btn" type="submit" value="Submit" />
-</form>
-{{ manuscript }}
+      <input class="btn" type="submit" value="Submit" />
+    </form>
+    {{ manuscript }}
+</body>
