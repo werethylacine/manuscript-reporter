@@ -1,5 +1,5 @@
 <body>
-    <form class="form" name="newManuForm" ng-submit="newManuCtrl.saveManu(manuscript)">
+    <form class="form" name="newManuForm" ng-submit="newManuCtrl.add(); newManuCtrl.saveManu(manuscript)">
 
       <h3>Add a new manuscript to your collection:</h3>
 
@@ -23,7 +23,6 @@
         <input class="form-input" id="notes" ng-model="manuscript.notes"/>
       </div>
 
-      <input class="btn" type="submit" value="Submit" />
+      <input class="btn" type="submit" id="submit" value="Submit" />
     </form>
-    {{ manuscript }}
 </body>
