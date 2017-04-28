@@ -42,7 +42,8 @@ app.get("/manuscripts", (request, response) => {
       response.sendStatus(400);
     }
     else {
-    response.json ( docs );
+      //console.log("Manuscripts being sent back from mongoUtil: ", docs);
+      response.json ( docs );
     }
   });
 });
@@ -52,6 +53,7 @@ app.post("/manuscripts", jsonParser, (request, response) => {
   let new_man_title = request.body.title;
   let new_man_author = request.body.author;
   let new_man_notes = request.body.notes || '';
+  let new_man_contents = request.body.contents;
   //TODO:probably ought to grab creation date in here, also user id
 
   //guard against lack of title or author
@@ -61,7 +63,7 @@ app.post("/manuscripts", jsonParser, (request, response) => {
 
   //put that new manuscript in the collection!
   let manuscripts = mongoUtil.manuscripts();
-  manuscripts.insertOne( { title: new_man_title, author: new_man_author, notes: new_man_notes });
+  manuscripts.insertOne( { title: new_man_title, author: new_man_author, notes: new_man_notes, contents: new_man_contents });
   response.sendStatus(201);
 });
 
@@ -74,6 +76,7 @@ app.get("/manuscripts/:title", (request, response) => {
     if (err) {
       response.sendStatus(400);
     }
+    console.log(doc);
     response.json(doc);
   });
 });

@@ -1,11 +1,11 @@
 <body>
-    <form class="form" name="newManuForm" ng-submit="newManuCtrl.add(); newManuCtrl.saveManu(manuscript)">
+    <form class="form" name="newManuForm" ng-submit="newManuCtrl.saveManu(manuscript)">
 
       <h3>Add a new manuscript to your collection:</h3>
 
       <div class="form-field">
         <label class="form-label" for="file">File (.txt only at this time):</label>
-        <input type='file' id="file" accept='text/plain' ng-model="manuscript.originalfilename"/><img id='output'>
+        <input type='file' id="file" accept='text/plain' required ng-model="manuscript.originalfilename"/><img id='output'>
       </div>
 
       <div class="form-field">

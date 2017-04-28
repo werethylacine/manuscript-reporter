@@ -22,8 +22,8 @@ angular.module('manuscriptpg', ["ui.router"])
           //don't care about 1 & 2 & 3 letter words for now
           if (word.length > 3) {
             if (!dict[word]) {
-              dict[word] = {};
-              dict[word]["frequency"] = 0;
+              dict[word] = {"frequency": 0};
+              //dict[word]["frequency"] = 0;
             }
             dict[word]["frequency"] += 1;
           }
@@ -137,19 +137,21 @@ angular.module('manuscriptpg', ["ui.router"])
       templateUrl: 'manuscripts/new-manuscript.html',
       controller: function($stateParams, $state, $http, $window, Details) {
 
-        this.add = function(){
+        this.add = function(manu){
           console.log("working on adding");
           var fileTarget = document.getElementById('file').files[0];
           var reader = new FileReader();
           reader.onloadend = function(e){
             var data = e.target.result;
             var frequencyManu = Details.textDict(Details.textCleaner(data));
-            var APICheckedManu = Details.checkEnglish(frequencyManu);
-            console.log("Length: ", Details.textLength(Details.textCleaner(data)));
-            console.log("Most frequent words: ", Details.mostFrequent(frequencyManu));
-            setTimeout(function() {
-              console.log("Dictionary: ", Details.nonEnglishWords(APICheckedManu));
-            }, 8000); //8000 is arbitrary here, just trying to give checkEnglish enough time to do the API requests
+            manu["contents"] = frequencyManu;
+            console.log(manu);
+            // var APICheckedManu = Details.checkEnglish(frequencyManu);
+            // console.log("Length: ", Details.textLength(Details.textCleaner(data)));
+            // console.log("Most frequent words: ", Details.mostFrequent(frequencyManu));
+            // setTimeout(function() {
+            //   console.log("Dictionary: ", Details.nonEnglishWords(APICheckedManu));
+            // }, 8000); //8000 is arbitrary here, just trying to give checkEnglish enough time to do the API requests
 
           }
           reader.readAsText(fileTarget);
@@ -157,12 +159,25 @@ angular.module('manuscriptpg', ["ui.router"])
 
         //TODO: i think we will need to grab user ID here eventually so we have it to save on the new manu
         this.saveManu = function(manuscript){
-          $http({method: 'POST', url: `/manuscripts`,
-          data: JSON.stringify(manuscript)}).then(function(){
-              //ugly but needed to get the new manuscript showing in nav. Seeking better solution!
-              $window.location.reload();
-              $state.go('manuscripts');
-            });
+          console.log("working on adding");
+          var fileTarget = document.getElementById('file').files[0];
+          var reader = new FileReader();
+          reader.onloadend = function(e){
+            var data = e.target.result;
+            var frequencyManu = Details.textDict(Details.textCleaner(data));
+            manuscript["contents"] = frequencyManu;
+            console.log("From inside onloadend: ", manuscript);
+          }
+          reader.readAsText(fileTarget);
+          setTimeout(function() {
+            console.log("From just before POST: ", manuscript);
+            $http({method: 'POST', url: `/manuscripts`,
+            data: JSON.stringify(manuscript)}).then(function(){
+                //ugly but needed to get the new manuscript showing in nav. Seeking better solution!
+                //$window.location.reload();
+                $state.go('manuscripts');
+              });
+            }, 2000);
         };
       },
       controllerAs: 'newManuCtrl'

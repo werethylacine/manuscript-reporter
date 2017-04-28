@@ -8,9 +8,8 @@
         <th>Frequency</th>
       </thead>
       <tbody>
-        <tr ng-repeat="word in manuscriptCtrl.manuscript.contents">
-          <td>{{ word.word }}</td>
-          <td>{{ word.frequency }}</td>
+        <tr ng-repeat="(key,value) in manuscriptCtrl.manuscript.contents[0]">
+            <td>{{ key }}</td><td>{{ value.frequency }}</td>
         </tr>
       </tbody>
     </table>
