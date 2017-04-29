@@ -1,5 +1,18 @@
 <div id="mandetails">
   <p><h3>Details for {{ manuscriptCtrl.manuscript.title }}</h3></p>
+  <div class="btn" id="remove-manu" ng-click="manuscriptCtrl.remove(manuscriptCtrl.manuscript._id)">
+    Delete
+  </div>
+
+  <p>
+    <table id="manu-specs">
+      <tbody>
+        <tr><td>Author: {{ manuscriptCtrl.manuscript.author }}</td></tr>
+        <tr><td>Notes: {{ manuscriptCtrl.manuscript.notes }}</td></tr>
+        <tr><td>Loaded date: {{ manuscriptCtrl.manuscript.date }}</td></tr>
+      </tbody>
+    </table>
+  </p>
 
   <p>
     <table id="word-frequency-table">
@@ -8,7 +21,7 @@
         <th>Frequency</th>
       </thead>
       <tbody>
-        <tr ng-repeat="(key,value) in manuscriptCtrl.manuscript.contents[0]">
+        <tr ng-repeat="(key,value) in manuscriptCtrl.manuscript.contents">
             <td>{{ key }}</td><td>{{ value.frequency }}</td>
         </tr>
       </tbody>

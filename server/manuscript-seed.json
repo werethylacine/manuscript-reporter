@@ -3,30 +3,30 @@
     "owner": 123456,
     "title": "Nihilist Punk Cooking",
     "author": "Snuggly Bandersnatch",
-    "contents": [
-      {"eat": {"frequency": 12, "isWord": true}},
-      {"god": {"frequency": 10, "isWord": true}},
-      {"pukeathon": {"frequency": 1, "isWord": false}}
-    ]
+    "contents": {
+      "eat": {"frequency": 12, "isWord": true},
+      "god": {"frequency": 10, "isWord": true},
+      "pukeathon": {"frequency": 1, "isWord": false}
+    }
   },
   {
     "owner": 123456,
     "title": "Coloring Everything Black",
     "author": "Able Kumquat",
-    "contents": [
-      {"soot": {"frequency": 3, "isWord": true}},
-      {"despair": {"frequency": 5, "isWord": true}},
-      {"party": {"frequency": 8, "isWord": true}}
-    ]
+    "contents": {
+      "soot": {"frequency": 3, "isWord": true},
+      "despair": {"frequency": 5, "isWord": true},
+      "party": {"frequency": 8, "isWord": true}
+    }
   },
   {
     "owner": 654321,
     "title": "Bread is tasty!",
     "author": "Alister Merman",
-    "contents": [
-      {"yeast": {"frequency": 13, "isWord": true}},
-      {"rise": {"frequency": 15, "isWord": true}},
-      {"crustalicious": {"frequency": 2, "isWord": false}}
-    ]
+    "contents": {
+      "yeast": {"frequency": 13, "isWord": true},
+      "rise": {"frequency": 15, "isWord": true},
+      "crustalicious": {"frequency": 2, "isWord": false}
+    }
   }
 ]

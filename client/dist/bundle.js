@@ -9,7 +9,13 @@ require('angular-ui-router');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_angular2.default.module('manuscriptpg', ["ui.router"]).factory("Details", function DetailsFactory() {
+_angular2.default.module('manuscriptpg', ["ui.router"]).factory("Delete", ['$http', function ($http) {
+  return {
+    removeManu: function removeManu(manu_id) {
+      return $http.delete('/manuscripts/' + manu_id + '/removeManu');
+    }
+  };
+}]).factory("Details", function DetailsFactory() {
 
   return {
     message: function message() {
@@ -134,13 +140,22 @@ _angular2.default.module('manuscriptpg', ["ui.router"]).factory("Details", funct
     url: '/:manuscriptTitle',
     templateUrl: 'manuscripts/manuscript-details.html',
     resolve: {
-      manuscriptService: function manuscriptService($http, $stateParams, $window) {
+      manuscriptService: function manuscriptService($http, $stateParams, $state, $window, Delete) {
         //first $ is string interpolation syntax; second is angular variable. Wow!
         return $http.get('/manuscripts/' + $stateParams.manuscriptTitle);
       }
     },
-    controller: function controller(manuscriptService) {
+    controller: function controller(manuscriptService, Delete, $state, $window) {
       this.manuscript = manuscriptService.data;
+
+      this.remove = function (manuscript_id) {
+        if (confirm("Are you sure you want to delete this manuscript?")) {
+          Delete.removeManu(manuscript_id);
+          //not a pretty way to refresh but it will do for now
+          $window.location.reload();
+          $state.go('manuscripts');
+        }
+      };
     },
     controllerAs: 'manuscriptCtrl'
   }).state('manuscripts.new', {
@@ -149,14 +164,14 @@ _angular2.default.module('manuscriptpg', ["ui.router"]).factory("Details", funct
     controller: function controller($stateParams, $state, $http, $window, Details) {
 
       this.add = function (manu) {
-        console.log("working on adding");
+
         var fileTarget = document.getElementById('file').files[0];
         var reader = new FileReader();
         reader.onloadend = function (e) {
           var data = e.target.result;
           var frequencyManu = Details.textDict(Details.textCleaner(data));
           manu["contents"] = frequencyManu;
-          console.log(manu);
+
           // var APICheckedManu = Details.checkEnglish(frequencyManu);
           // console.log("Length: ", Details.textLength(Details.textCleaner(data)));
           // console.log("Most frequent words: ", Details.mostFrequent(frequencyManu));
@@ -169,22 +184,19 @@ _angular2.default.module('manuscriptpg', ["ui.router"]).factory("Details", funct
 
       //TODO: i think we will need to grab user ID here eventually so we have it to save on the new manu
       this.saveManu = function (manuscript) {
-        console.log("working on adding");
         var fileTarget = document.getElementById('file').files[0];
         var reader = new FileReader();
         reader.onloadend = function (e) {
           var data = e.target.result;
           var frequencyManu = Details.textDict(Details.textCleaner(data));
           manuscript["contents"] = frequencyManu;
-          console.log("From inside onloadend: ", manuscript);
         };
         reader.readAsText(fileTarget);
         setTimeout(function () {
-          console.log("From just before POST: ", manuscript);
           $http({ method: 'POST', url: '/manuscripts',
             data: JSON.stringify(manuscript) }).then(function () {
             //ugly but needed to get the new manuscript showing in nav. Seeking better solution!
-            //$window.location.reload();
+            $window.location.reload();
             $state.go('manuscripts');
           });
         }, 2000);

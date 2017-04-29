@@ -3,7 +3,7 @@
     <div class="mini-manu-link" ng-repeat="manuscript in manpgCtrl.manuscripts">
       <!-- sref used since we're using ui-router-->
       <a class="mini-manu-view" ui-sref="manuscripts.title({manuscriptTitle: manuscript.title})">
-            <p>{{ manuscript.title }}<br>by {{ manuscript.author }}</p>
+            <p>{{ manuscript.title }}<br>by {{ manuscript.author }}<br>{{ manuscript.date }}</p>
       </a>
     </div>
   </div>

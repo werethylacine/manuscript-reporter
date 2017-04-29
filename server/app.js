@@ -3,6 +3,7 @@
 let express = require("express");
 let app = express();
 
+let ObjectId = require("mongodb").ObjectID;
 let mongoUtil = require('./mongoUtil');
 mongoUtil.connect();
 
@@ -52,8 +53,10 @@ app.get("/manuscripts", (request, response) => {
 app.post("/manuscripts", jsonParser, (request, response) => {
   let new_man_title = request.body.title;
   let new_man_author = request.body.author;
-  let new_man_notes = request.body.notes || '';
+  let new_man_notes = request.body.notes || 'N/A';
   let new_man_contents = request.body.contents;
+  let date = new Date();
+  let new_man_creation_date = date.toDateString();
   //TODO:probably ought to grab creation date in here, also user id
 
   //guard against lack of title or author
@@ -63,7 +66,11 @@ app.post("/manuscripts", jsonParser, (request, response) => {
 
   //put that new manuscript in the collection!
   let manuscripts = mongoUtil.manuscripts();
-  manuscripts.insertOne( { title: new_man_title, author: new_man_author, notes: new_man_notes, contents: new_man_contents });
+  manuscripts.insertOne( { title: new_man_title,
+                          author: new_man_author,
+                          notes: new_man_notes,
+                          contents: new_man_contents,
+                          date: new_man_creation_date });
   response.sendStatus(201);
 });
 
@@ -76,9 +83,25 @@ app.get("/manuscripts/:title", (request, response) => {
     if (err) {
       response.sendStatus(400);
     }
-    console.log(doc);
     response.json(doc);
   });
+});
+
+//deletes manuscripts from the collection
+app.delete("/manuscripts/:manu_id/removeManu", jsonParser, (request, response) => {
+
+  let id = { _id: ObjectId(request.params.manu_id)};
+  let manuscripts = mongoUtil.manuscripts();
+  manuscripts.remove(id, function(err, records){
+        if(err){
+            console.log("Error" + err);
+            response.sendStatus(402);
+        }
+        else{
+            console.log("The manuscript with id: " + request.params.manu_id + " has been removed!");
+            response.sendStatus(202);
+        }
+    });
 });
 
 //8181 is arbitrary

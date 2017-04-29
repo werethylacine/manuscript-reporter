@@ -3,23 +3,23 @@
 <head>
   <meta charset="utf-8">
   <title>Manuscript Reporter</title>
-  <link href="https://fonts.googleapis.com/css?family=Dosis|Quattrocento" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Quattrocento|Londrina+Outline|Londrina+Solid" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css"/>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
 
 <body>
-  <div id="header"><h1>Manuscript Analyzer</h1><div id="add-new-wrapper"><a ui-sref='manuscripts.new'><div id="add-new"><p>Add Manuscript</p></div></a></div></div>
+  <div id="header"><h1 data-heading="Manuscript Analyzer" >Manuscript Analyzer</h1>
+    <div id="add-new-wrapper">
+      <a ui-sref='manuscripts.new'>
+        <div id="add-new">
+          <p>Add New</p>
+        </div>
+      </a>
+    </div>
+  </div>
 
   <div ui-view></div>
-
-  <!-- <h2>Manuscript Reporter</h2>
-  <input type='file' accept='text/plain' onchange='openFile(event)'><br>
-  <img id='output'>
-
-  <section id="results">
-
-  </section>-->
 
   <script src="dist/bundle.js"></script>
 </body>
