@@ -4,27 +4,47 @@
     Delete
   </div>
 
-  <p>
-    <table id="manu-specs">
-      <tbody>
-        <tr><td>Author: {{ manuscriptCtrl.manuscript.author }}</td></tr>
-        <tr><td>Notes: {{ manuscriptCtrl.manuscript.notes }}</td></tr>
-        <tr><td>Loaded date: {{ manuscriptCtrl.manuscript.date }}</td></tr>
-      </tbody>
-    </table>
-  </p>
+  <div class="table-container">
+    <div class="specs-and-not-english">
+      <table id="manu-specs">
+        <tbody>
+          <tr><td>Author: {{ manuscriptCtrl.manuscript.author }}</td></tr>
+          <tr><td>Notes: {{ manuscriptCtrl.manuscript.notes }}</td></tr>
+          <tr><td>Loaded date: {{ manuscriptCtrl.manuscript.date }}</td></tr>
+          <tr><td>Word count: {{ manuscriptCtrl.manuscript.length }}</td></tr>
+        </tbody>
+      </table>
 
-  <p>
+      <table id="non-english-table">
+        <caption>Words we couldn't find in the dictionary</caption>
+        <thead>
+          <th>Word</th>
+          <th>Frequency</th>
+        </thead>
+        <tbody>
+          <tr ng-repeat="(key,value) in manuscriptCtrl.notEnglish">
+              <td>{{ key }}</td>
+              <td>{{ value.frequency }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
     <table id="word-frequency-table">
+      <caption>Most-frequently used words</caption>
       <thead>
         <th>Word</th>
         <th>Frequency</th>
       </thead>
       <tbody>
-        <tr ng-repeat="(key,value) in manuscriptCtrl.manuscript.contents">
-            <td>{{ key }}</td><td>{{ value.frequency }}</td>
+        <tr ng-repeat="(key,value) in manuscriptCtrl.mostFrequent">
+            <td>{{ key }}</td>
+            <td>{{ value.frequency }}</td>
         </tr>
       </tbody>
     </table>
-  </p>
+
+  </div>
+
 </div>

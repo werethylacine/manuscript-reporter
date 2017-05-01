@@ -54,6 +54,7 @@ app.post("/manuscripts", jsonParser, (request, response) => {
   let new_man_title = request.body.title;
   let new_man_author = request.body.author;
   let new_man_notes = request.body.notes || 'N/A';
+  let new_man_length = request.body.length;
   let new_man_contents = request.body.contents;
   let date = new Date();
   let new_man_creation_date = date.toDateString();
@@ -64,14 +65,18 @@ app.post("/manuscripts", jsonParser, (request, response) => {
     response.sendStatus(400);
   }
 
-  //put that new manuscript in the collection!
-  let manuscripts = mongoUtil.manuscripts();
-  manuscripts.insertOne( { title: new_man_title,
-                          author: new_man_author,
-                          notes: new_man_notes,
-                          contents: new_man_contents,
-                          date: new_man_creation_date });
-  response.sendStatus(201);
+  //put that new manuscript in the collection! This settimeout is an attempt to deal with
+  //the api requests that need to finish :(
+  setTimeout(function(){
+    let manuscripts = mongoUtil.manuscripts();
+    manuscripts.insertOne( { title: new_man_title,
+                            author: new_man_author,
+                            notes: new_man_notes,
+                            length: new_man_length,
+                            contents: new_man_contents,
+                            date: new_man_creation_date });
+    response.sendStatus(201);
+  }, 8000);
 });
 
 //gets doc of manuscript details from mongo based on title

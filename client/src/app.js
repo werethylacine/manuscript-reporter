@@ -16,6 +16,8 @@ angular.module('manuscriptpg', ["ui.router"])
     return {
       message: function(){ return ("Hey, you connected with DetailsFactory!");},
 
+      textLength: function(txt) { return txt.length; },
+
       textCleaner: function(txt){
         //boolean trick to prevent ' ' results from http://stackoverflow.com/questions/10346722/how-can-i-split-a-javascript-string-by-white-space-or-comma
         //regex from http://stackoverflow.com/questions/20864893/javascript-replace-all-non-alpha-numeric-characters-new-lines-and-multiple-whi
@@ -86,7 +88,7 @@ angular.module('manuscriptpg', ["ui.router"])
         },
 
         //takes a dictionary of words with frequencies & returns array w/ range most frequently used words (default 15)
-        mostFrequent: function(dict, range=15) {
+        mostFrequent: function(dict, range=25) {
           var mostFrequentDict = {};
           //this relies on the arr and keys coming back in the same order as each other from the dict; is that always true?
           var arr = Object.values(dict).map(function(obj) { return obj["frequency"] });
@@ -130,13 +132,15 @@ angular.module('manuscriptpg', ["ui.router"])
       url: '/:manuscriptTitle',
       templateUrl: 'manuscripts/manuscript-details.html',
       resolve: {
-        manuscriptService: function($http, $stateParams, $state, $window, Delete) {
+        manuscriptService: function($http, $stateParams, $state, $window, Delete, Details) {
           //first $ is string interpolation syntax; second is angular variable. Wow!
           return $http.get(`/manuscripts/${ $stateParams.manuscriptTitle }`);
         }
       },
-      controller: function(manuscriptService, Delete, $state, $window) {
+      controller: function(manuscriptService, Delete, $state, $window, Details) {
         this.manuscript = manuscriptService.data;
+        this.mostFrequent = Details.mostFrequent(this.manuscript.contents);
+        this.notEnglish = Details.nonEnglishWords(this.manuscript.contents);
 
         this.remove = function(manuscript_id) {
           if (confirm("Are you sure you want to delete this manuscript?")) {
@@ -154,34 +158,18 @@ angular.module('manuscriptpg', ["ui.router"])
       templateUrl: 'manuscripts/new-manuscript.html',
       controller: function($stateParams, $state, $http, $window, Details) {
 
-        this.add = function(manu){
-
-          var fileTarget = document.getElementById('file').files[0];
-          var reader = new FileReader();
-          reader.onloadend = function(e){
-            var data = e.target.result;
-            var frequencyManu = Details.textDict(Details.textCleaner(data));
-            manu["contents"] = frequencyManu;
-
-            // var APICheckedManu = Details.checkEnglish(frequencyManu);
-            // console.log("Length: ", Details.textLength(Details.textCleaner(data)));
-            // console.log("Most frequent words: ", Details.mostFrequent(frequencyManu));
-            // setTimeout(function() {
-            //   console.log("Dictionary: ", Details.nonEnglishWords(APICheckedManu));
-            // }, 8000); //8000 is arbitrary here, just trying to give checkEnglish enough time to do the API requests
-
-          }
-          reader.readAsText(fileTarget);
-        };
-
         //TODO: i think we will need to grab user ID here eventually so we have it to save on the new manu
         this.saveManu = function(manuscript){
           var fileTarget = document.getElementById('file').files[0];
           var reader = new FileReader();
           reader.onloadend = function(e){
             var data = e.target.result;
-            var frequencyManu = Details.textDict(Details.textCleaner(data));
-            manuscript["contents"] = frequencyManu;
+            var cleaned = Details.textCleaner(data);
+            var length = Details.textLength(cleaned);
+            var frequencyManu = Details.textDict(cleaned);
+            var isEnglishFrequencyManu = Details.checkEnglish(frequencyManu);
+            manuscript["length"] = length;
+            manuscript["contents"] = isEnglishFrequencyManu;
           }
           reader.readAsText(fileTarget);
           setTimeout(function() {

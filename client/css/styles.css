@@ -119,13 +119,14 @@ h1:before {
   transition: .5s ease-in-out;
   background-color: #FF7142;
 }
-h3, table {
+h3 {
   margin: auto;
 }
 table {
   background-color: #fff;
   border-radius: 10px;
   padding: 15px;
+  display: inline-block;
 }
 #mandetails {
   text-align: center;
@@ -190,7 +191,25 @@ th {
   border-radius: 10px;
   color: #fff;
   padding: 20px;
+  margin-top: -20px;
+  margin-right: 60px;
 }
 #remove-manu:hover {
   background-color: red;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+}
+#manu-specs, #word-frequency-table, #non-english-table {
+  margin: 20px;
+  box-shadow: 3px 3px #DCD9C7;
+}
+
+.specs-and-not-english {
+  display: flex;
+  flex-direction: column;
 }
