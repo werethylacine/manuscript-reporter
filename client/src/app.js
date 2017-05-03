@@ -46,31 +46,28 @@ angular.module('manuscriptpg', ["ui.router"])
       //for finding names as common non-english words will not work for many texts.
       checkEnglish: function(dict) {
           var words = Object.keys(dict);
+          var promises = [];
           words.forEach(function(word) {
-          // make an AJAX call to the Pearson API
-          $.ajax({
-              url: "http://api.pearson.com/v2/dictionaries/entries?headword=" + word,
-              success: function(response) {
-
-                  //.count of the response will be 0 if the word wasn't in the dictionary
-                  function lookupable(response) {
-                    var theAnswer = false;
-                    if (response.count > 0) {
-                      theAnswer = true;
+            // defines an AJAX call to the Pearson API
+            var request = $.ajax({
+                url: "http://api.pearson.com/v2/dictionaries/entries?headword=" + word,
+                success: function(response) {
+                    //.count of the response will be 0 if the word wasn't in the dictionary
+                    if (response.count < 1) {
+                      dict[word]["isWord"] = 'false';
                     }
-                    return theAnswer;
+                    else {
+                      dict[word]["isWord"] = 'true';
+                    }
                   }
+                })
+              promises.push(request);
+            });
 
-                  if (!lookupable(response)) {
-                    dict[word]["isWord"] = 'false';
-                  }
-                  else {
-                    dict[word]["isWord"] = 'true';
-                  }
-                  return lookupable(response);
-                }
-              });
-            })
+            //found this suggestion at http://stackoverflow.com/questions/20291366/how-to-wait-until-jquery-ajax-request-finishes-in-a-loop
+            $.when.apply(null, promises).done(function(){
+              return dict;
+            });
             return dict;
           },
 
@@ -113,6 +110,7 @@ angular.module('manuscriptpg', ["ui.router"])
     $urlRouterProvider.otherwise('/manuscripts')
 
     $stateProvider
+
     .state('manuscripts', {
       url: '/manuscripts',
       templateUrl: 'manuscripts/manuscripts-nav.html',
@@ -127,6 +125,15 @@ angular.module('manuscriptpg', ["ui.router"])
         this.manuscripts = manuscriptsService.data;
       },
       controllerAs: 'manpgCtrl',
+    })
+    .state('login', {
+      url: '/login',
+      templateUrl: 'manuscripts/login.html',
+      resolve: {
+        loginService: (function($http) {
+          return http.get("/login");
+        })
+      }
     })
     .state('manuscripts.title', {
       url: '/:manuscriptTitle',
@@ -179,7 +186,7 @@ angular.module('manuscriptpg', ["ui.router"])
                 $window.location.reload();
                 $state.go('manuscripts');
               });
-            }, 2000);
+            }, 10000);
         };
       },
       controllerAs: 'newManuCtrl'

@@ -53,29 +53,26 @@ _angular2.default.module('manuscriptpg', ["ui.router"]).factory("Delete", ['$htt
     return dict;
   }), _defineProperty(_ref, 'checkEnglish', function checkEnglish(dict) {
     var words = Object.keys(dict);
+    var promises = [];
     words.forEach(function (word) {
-      // make an AJAX call to the Pearson API
-      $.ajax({
+      // defines an AJAX call to the Pearson API
+      var request = $.ajax({
         url: "http://api.pearson.com/v2/dictionaries/entries?headword=" + word,
         success: function success(response) {
-
           //.count of the response will be 0 if the word wasn't in the dictionary
-          function lookupable(response) {
-            var theAnswer = false;
-            if (response.count > 0) {
-              theAnswer = true;
-            }
-            return theAnswer;
-          }
-
-          if (!lookupable(response)) {
+          if (response.count < 1) {
             dict[word]["isWord"] = 'false';
           } else {
             dict[word]["isWord"] = 'true';
           }
-          return lookupable(response);
         }
       });
+      promises.push(request);
+    });
+
+    //found this suggestion at http://stackoverflow.com/questions/20291366/how-to-wait-until-jquery-ajax-request-finishes-in-a-loop
+    $.when.apply(null, promises).done(function () {
+      return dict;
     });
     return dict;
   }), _defineProperty(_ref, 'nonEnglishWords', function nonEnglishWords(dict) {
@@ -127,6 +124,14 @@ _angular2.default.module('manuscriptpg', ["ui.router"]).factory("Delete", ['$htt
       this.manuscripts = manuscriptsService.data;
     },
     controllerAs: 'manpgCtrl'
+  }).state('login', {
+    url: '/login',
+    templateUrl: 'manuscripts/login.html',
+    resolve: {
+      loginService: function loginService($http) {
+        return http.get("/login");
+      }
+    }
   }).state('manuscripts.title', {
     url: '/:manuscriptTitle',
     templateUrl: 'manuscripts/manuscript-details.html',
@@ -177,7 +182,7 @@ _angular2.default.module('manuscriptpg', ["ui.router"]).factory("Delete", ['$htt
             $window.location.reload();
             $state.go('manuscripts');
           });
-        }, 2000);
+        }, 10000);
       };
     },
     controllerAs: 'newManuCtrl'
